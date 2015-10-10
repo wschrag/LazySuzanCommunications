@@ -60,15 +60,3 @@ for (i in range Ackin.high)
             if (messager = True):
                 print(mass)
                 framebuffer = inputframe ##  this will take the input in the end
-
-### ingore practice code
-'''''
-GPIO.input(6, in) # this will take the input and  it should allow it to execute
-# the main thing
-GPiO.setup(13,GPIO.out) # this will allow it to make its
-GPIO.output(13,print(in)) # this will take the input and out print it
-GPIO.setup(16,GPIO.ack) #
-GPIO.ackput(16,false)  #
-GPIO.Setup(26,GPIO.TransmitCLK) #
-GPIO.TransmitCLKput(26,false) #
-'''''
