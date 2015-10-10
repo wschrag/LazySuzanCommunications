@@ -1,6 +1,7 @@
-!#/usr/bin/env python # this will it just to run with calling it through
 ##### Extrenal module
 import RPi.GPIO as GPIO
+import threading
+import collections.deque
 ###  Pin Declartions #####
 outputwire = 33
 inputwire= 31
@@ -10,6 +11,18 @@ Thandshakein = 29
 Thandshakeout = 32
 ######  ######
 
+inQueue = collections.deque()
+
+
+def consoleInput():
+    consoleIn = raw_input()
+    inQueue.appendleft(consoleIn)
+
+ioThread = threading.Thread(target=consoleInput, args=())
+ioThread.start()
+
+
+
 GPIO.setmode(GPIO.BCM)
 dex = raw_input
 GPIO.setup(inputwire, GPIO.IN)
@@ -18,7 +31,8 @@ GPIO.setup(Ackin, GPID.Ackin)
 GPIO.setup(Ackout, GPIO.Ackout)
 GPIO.setup(Thandshakein, GPIO.TSi)
 GPIO.setup(Thandshakeout, GPIO.THSo)
-import RPi.GPIO as GPIOi = 0
+import RPi.GPIO as GPIO
+i = 0
 for (i in range Ackin.high)
     print (i)
     while (ThandShakein.high= True ):
