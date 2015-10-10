@@ -1,7 +1,34 @@
 !#/usr/bin/env python # this will it just to run with calling it through
+##### Extrenal module
 import RPi.GPIO as GPIO
-in = raw_input #  this will take the input in the end
-GPIO.setup(6, GPIO.in) #
+###  Pin Declartions #####
+outputwire = 33
+inputwire= 31
+Ackin = 36
+AckOut = 37
+Thandshakein = 29
+Thandshakeout = 32
+######  ######
+
+GPIO.setmode(GPIO.BCM)
+dex = raw_input
+GPIO.setup(inputwire, GPIO.IN)
+GPIO.setup(outputwire, GPIO.OUT)
+GPIO.setup(Ackin, GPID.Ackin)
+GPIO.setup(Ackout, GPIO.Ackout)
+GPIO.setup(Thandshakein, GPIO.TSi)
+GPIO.setup(Thandshakeout, GPIO.THSo)
+import RPi.GPIO as GPIOi = 0
+for (i in range Ackin.high)
+    print (i)
+    while (ThandShakein.high= True ):
+        print (foo)
+        sleep.time(2)
+            if (readbit = True):
+                print(mass)
+                framebuffer = dex ##  this will take the input in the end
+### ingore practice code
+'''''
 GPIO.input(6, in) # this will take the input and  it should allow it to execute
 # the main thing
 GPiO.setup(13,GPIO.out) # this will allow it to make its
@@ -10,3 +37,4 @@ GPIO.setup(16,GPIO.ack) #
 GPIO.ackput(16,false)  #
 GPIO.Setup(26,GPIO.TransmitCLK) #
 GPIO.TransmitCLKput(26,false) #
+'''''
