@@ -28,16 +28,18 @@ def consoleOutput():
 
 def tokenRing():
     ######  inputs ######
+    senderID = raw_input
+    recieverID = raw_input
     inputframe = raw_input
     sender = raw_input
     ######  sets ######
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BOARD)
     GPIO.setup(inputwire, GPIO.IN)
     GPIO.setup(outputwire, GPIO.OUT)
-    GPIO.setup(Ackin, GPID.Ackin)
-    GPIO.setup(Ackout, GPIO.Ackout)
-    GPIO.setup(thandshakein, GPIO.THSin)
-    GPIO.setup(thandshakeout, GPIO.THSout)
+    GPIO.setup(Ackin, GPID.IN)
+    GPIO.setup(Ackout, GPIO.OUT)
+    GPIO.setup(thandshakein, GPIO.IN)
+    GPIO.setup(thandshakeout, GPIO.OUT)
     ######## methods  #######
     def __reciever__(message):
         if (sender == sender ):
