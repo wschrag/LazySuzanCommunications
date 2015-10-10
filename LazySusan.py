@@ -12,14 +12,25 @@ Thandshakeout = 32
 ###### input and output threads ######
 
 inQueue = collections.deque()
+outQueue = collections.deque()
 
 
 def consoleInput():
-    consoleIn = raw_input()
-    inQueue.appendleft(consoleIn)
+    while(True):
+        consoleIn = raw_input()
+        inQueue.appendleft(consoleIn)
 
-ioThread = threading.Thread(target=consoleInput, args=())
-ioThread.start()
+def consoleOutput():
+    while(True):
+        if(len(outQueue) != 0):
+            consoleOut = outQueue.pop()
+            print(consoleOut)
+
+
+inputThread = threading.Thread(target=consoleInput, args=())
+outputThread = threading.Thread(target=consoleOutput, args())
+inputThread.start()
+outputThread.start()
 
 ######  inputs ######
 inputframe = raw_input
