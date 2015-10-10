@@ -1,4 +1,3 @@
-!#/usr/bin/env python # this will it just to run with calling it through
 ##### Extrenal module
 import RPi.GPIO as GPIO
 ###  Pin Declartions #####
@@ -8,25 +7,36 @@ Ackin = 36
 AckOut = 37
 Thandshakein = 29
 Thandshakeout = 32
-######  ######
-
+######  inputs ######
+inputframe = raw_input
+sender = raw_input
+######  sets ######
 GPIO.setmode(GPIO.BCM)
-dex = raw_input
 GPIO.setup(inputwire, GPIO.IN)
 GPIO.setup(outputwire, GPIO.OUT)
 GPIO.setup(Ackin, GPID.Ackin)
 GPIO.setup(Ackout, GPIO.Ackout)
-GPIO.setup(Thandshakein, GPIO.TSi)
-GPIO.setup(Thandshakeout, GPIO.THSo)
-import RPi.GPIO as GPIOi = 0
+GPIO.setup(thandshakein, GPIO.THSin)
+GPIO.setup(thandshakeout, GPIO.THSout)
+######## methods  #######
+def __reciever__(message)
+(
+    if (sender == sender ):
+        print( reciever(message))
+    elif(sender == null):
+    else:
+        for (i in range Ackin.high):
+            while(TSHin)
+)
 for (i in range Ackin.high)
     print (i)
-    while (ThandShakein.high= True ):
+    while (thandShakein.high= True ):
         print (foo)
         sleep.time(2)
-            if (readbit = True):
+            if (messager = True):
                 print(mass)
-                framebuffer = dex ##  this will take the input in the end
+                framebuffer = inputframe ##  this will take the input in the end
+
 ### ingore practice code
 '''''
 GPIO.input(6, in) # this will take the input and  it should allow it to execute
