@@ -101,11 +101,10 @@ def flip_bit(gpio_id):
 
     GPIO.setup(gpio_id, GPIO.IN)
 
-def ackin_callback(gpio_id):
+def ackin_callback_rising(gpio_id):
     print('ackin flip')
     print(GPIO.input(Ackin))
-    if(GPIO.input(Ackin)):
-        read_message()
+    read_message()
     
 
 def read_message():
@@ -230,6 +229,6 @@ outputThread.start()
 #readThread.start()
 
 ### Adding Callbacks ###
-GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback, bouncetime=100)
+GPIO.add_event_detect(Ackin, GPIO.RISING, callback=ackin_callback_rising, bouncetime=100)
 GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=100) #default edge is both
 GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=100) #default edge is both again
