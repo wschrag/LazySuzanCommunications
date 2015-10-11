@@ -25,6 +25,7 @@ outStream = BitStream()
 inputStr = ''
 sender = BitStream()
 currentBit = 0
+isSending = None
 
 GPIO.setup(outputwire, GPIO.OUT)
 GPIO.setup(inputwire, GPIO.IN)
