@@ -98,9 +98,12 @@ def ackin_callback(gpio_id):
 def read_message():
     isSending = False
     sender = senderID.read(np.uint8, 1)
+    print(sender)
     reciever = recieverID.read(np.uint8, 1)
+    print(reciever)
     while((inputframe // 8) != 0):
         inputStr = inputStr + inputframe.read(str, 1)
+    print(inputStr)
     parse_message(sender, reciever, inputStr)
 
 ### Parsing and Writing Message Logic ###
