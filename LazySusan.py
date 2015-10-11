@@ -81,7 +81,7 @@ def ackin_callback(gpio_id):
     if(GPIO.input(Ackin)):
         print('ackin flip')
         print(GPIO.input(Ackin))
-        read_bit(inputWire)
+        read_bit(inputwire)
     else:
         read_message()    
 
