@@ -91,6 +91,7 @@ def flip_bit(gpio_id):
         GPIO.output(gpio_id, GPIO.HIGH)   
 
 def ackin_callback(gpio_id):
+    print('ackin flip')
     if(GPIO.input(Ackin)):
         read_message()
     
