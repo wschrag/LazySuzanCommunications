@@ -177,6 +177,7 @@ def send_bit(gpio_id):
     else:
         GPIO.output(outputwire, GPIO.LOW)
 
+    print('flipping THSout after sending bit')
     flip_bit(Thandshakeout)
 
     if(len(outStream) == 0):
