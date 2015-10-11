@@ -46,6 +46,11 @@ def consoleOutput():
             consoleOut = outQueue.pop()
             print(consoleOut)
 
+### Resetting values that need to be reset ###
+def reset_sender_reciever():
+    sender = None
+    reciever = None
+
 ### Reading message logic ###
 def flip_bit(gpio_id):
     if(RPIO.input(gpio_id)):
@@ -56,9 +61,9 @@ def flip_bit(gpio_id):
 def read_bit(gpio_id, val):
     currentBit = 0
     if(RPIO.input(Ackin)):
-        if(currentBit < 4):
+        if(currentBit < 8):
             senderID.write(val, bool)
-        elif(currentBit < 8):
+        elif(currentBit < 16):
             recieverID.write(val, bool)
         else:
             inputframe.write(val, bool)
@@ -84,18 +89,37 @@ def parse_message(sender, reciever, message):
     #first check to see if message is meant for this node
     if(reciever == nodeID):
         outQueue.appendLeft(message)
+        outMessage = "000"
+        reset_sender_reciever()
+        send_message(outMessage)
+        
     #then check to see if message is empty, by checking if sender or reciever is 0
     elif((sender == 0) or (reciever == 0)):
         outMessage = None
         if(len(inQueue) != 0):
             outMessage = inQueue.pop()
-
+        
+        reset_sender_reciever()
         send_message(outMessage)
 
 def send_message(message):
     RPIO.output(Ackout, RPIO.HIGH)
+    #now to form output bitstream message
+    outStream = BitStream()
+    outStream.write(message, str)
 
-    
+    #now the logic for sending the message via outputWire and Thandshakeout
+    while(len(outStream) != 0):
+        RPIO.output(outputWire, outStream.read(bool, 1))
+        flip_bit(Thandshakeout)
+
+    RPIO.output(Ackout, RPIO.LOW)
+
+### Starting input and output threads ###
+inputThread = threading.Thread(target=consoleInput, args=())
+outputThread = threading.Thread(target=consoleOutput, args())
+inputThread.start()
+outputThread.start()
 
 ### Adding Callbacks ###
 RPIO.add_interrupt_callback(Ackin, ackin_callback_rising, edge='rising')
