@@ -102,8 +102,6 @@ def read_message():
                 inputframe.write(False)
     
     isSending = False
-    print('isSending is: ')
-    print(isSending)
     sender = senderID.read(np.uint8, 1)
     print('Sender is: ')
     print(sender)
@@ -134,7 +132,7 @@ def parse_message(sender, reciever, message):
         if(len(inQueue) != 0):
             outMessage = inQueue.pop()
         else:
-            outMessage = "000"
+            outMessage = "000000000"
         
         reset_sender_reciever()
         send_message(outMessage)
