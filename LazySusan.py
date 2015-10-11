@@ -38,6 +38,9 @@ sender = BitStream()
 def consoleInput():
     while(True):
         consoleIn = raw_input()
+        if(consoleIn == 'start'):
+            outMessage = "000"
+            send_message(outMessage)
         inQueue.appendleft(consoleIn)
 
 def consoleOutput():
