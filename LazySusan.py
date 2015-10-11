@@ -138,6 +138,35 @@ def finish_message():
     #send ack to let reciever know message is now done
     GPIO.output(Ackout, GPIO.LOW)
 
+### Reading and Sending Bits ###
+def read_send_bit():
+    if(isSending):
+        #now the logic for sending the message via outputWire and Thandshakeout bit by bit
+        print(len(outStream))
+        if(outStream.read(bool, 1)):
+            GPIO.output(outputwire, GPIO.HIGH)
+        else:
+            GPIO.output(outputwire, GPIO.LOW)
+
+        flip_bit(Thandshakeout)
+
+        if(len(outStream) == 0):
+            finish_message()
+    else:
+        #logic for reading a bit
+        writeVal = GPIO.input(inputwire)
+        if(GPIO.input(Ackin)):
+            if(currentBit < 8):
+                senderID.write(writeVal, bool)
+            elif(currentBit < 16):
+                recieverID.write(writeVal, bool)
+            else:
+                inputframe.write(writeVal, bool)
+
+            currentBit = currentBit + 1
+            flip_bit(Thandshakeout)
+
+
 
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
@@ -147,6 +176,6 @@ outputThread.start()
 
 ### Adding Callbacks ###
 GPIO.add_event_detect(Ackin, GPIO.FALLING, callback=ackin_callback_falling)
-GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit) #default edge is both
-GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit) #default edge is both again
+GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_send_bit) #default edge is both
+#GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit) #default edge is both again
 GPIO.wait_for_edge()
