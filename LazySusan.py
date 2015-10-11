@@ -144,7 +144,7 @@ def parse_message(sender, reciever, message):
 def send_message(message):
     #setup sending state
     GPIO.setup(Thandshakeout, GPIO.IN)
-    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=150)
+    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit)
     GPIO.remove_event_detect(Thandshakein)
     GPIO.setup(Thandshakein, GPIO.OUT)
 
@@ -188,7 +188,7 @@ def read_bit(gpio_id):
         GPIO.remove_event_detect(Thandshakein)
         flip_bit(Thandshakein)
         time.sleep(0.250)
-        GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=150)
+        GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit)
     else:
         GPIO.remove_event_detect(Thandshakein)
 
@@ -208,7 +208,7 @@ def send_bit(gpio_id):
     GPIO.remove_event_detect(Thandshakeout)
     flip_bit(Thandshakeout)
     time.sleep(0.250)
-    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=150)
+    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit)
 
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
@@ -221,6 +221,6 @@ outputThread.start()
 #readThread.start()
 
 ### Adding Callbacks ###
-GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback, bouncetime=150)
+GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback)
 GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit) #default edge is both
 #GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=100) #default edge is both again
