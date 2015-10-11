@@ -195,7 +195,10 @@ def read_bit(gpio_id):
 
             currentVal = currentVal + 1
             bitLocation = currentVal
+
+            GPIO.remove_event_detect(Thandshakein)
             flip_bit(Thandshakein)
+            GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit, bouncetime=10)
 
 def send_bit(gpio_id):
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
@@ -206,7 +209,9 @@ def send_bit(gpio_id):
         GPIO.output(outputwire, GPIO.LOW)
 
     print('flipping THSout after sending bit')
+    GPIO.remove_event_detect(Thandshakeout)
     flip_bit(Thandshakeout)
+    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
 
     if(len(outStream) == 0):
         finish_message()
@@ -224,5 +229,5 @@ outputThread.start()
 
 ### Adding Callbacks ###
 GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback, bouncetime=10)
-#GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10) #default edge is both
-#GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10) #default edge is both again
+GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10) #default edge is both
+GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10) #default edge is both again
