@@ -19,6 +19,7 @@ RPIO.setup(Ackin, RPIO.IN)
 RPIO.setup(Ackout, RPIO.OUT)
 RPIO.setup(Thandshakein, RPIO.IN)
 RPIO.setup(Thandshakeout, RPIO.OUT)
+RPIO.setwarnings(False)
 ###### input and output threads ######
 
 nodeID = sys.argv[1]
@@ -124,7 +125,6 @@ def send_bit(gpio_id, val):
     flip_bit(Thandshakeout)
 
     if(len(outStream) == 0):
-        print(len(outStream))
         finish_message()
 
 def finish_message():
