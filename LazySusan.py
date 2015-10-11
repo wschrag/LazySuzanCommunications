@@ -1,4 +1,5 @@
 ##### Extrenal module
+import time
 import numpy as np
 import sys
 import RPi.GPIO as GPIO
