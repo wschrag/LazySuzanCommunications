@@ -1,18 +1,38 @@
 ##### Extrenal module
-import RPi.GPIO as GPIO
+import RPIO
 import threading
 import collections.deque
-###  Pin Declartions #####
+from bitstream import BitStream
+###  Pin Declartions and Settings #####
+RPIO.setmode(RPIO.BOARD)
 outputwire = 33
 inputwire= 31
 Ackin = 36
-AckOut = 37
+Ackout = 37
 Thandshakein = 29
 Thandshakeout = 32
+
+RPIO.setup(outputWire, RPIO.OUT)
+RPIO.setup(inputWire, RPIO.IN)
+RPIO.setup(Ackin, RPIO.IN)
+RPIO.setup(Ackout, RPIO.OUT)
+RPIO.setup(Thandshakein, RPIO.IN)
+RPIO.setup(Thandshakeout, RPIO.OUT)
 ###### input and output threads ######
+
+nodeID = sys.argv[1]
 
 inQueue = collections.deque()
 outQueue = collections.deque()
+
+### global vars ###
+sender = None
+reciever = None
+senderID = BitStream()
+recieverID = BitStream()
+inputframe = BitStream()
+inputStr = ''
+sender = BitStream()
 
 
 def consoleInput():
@@ -26,42 +46,59 @@ def consoleOutput():
             consoleOut = outQueue.pop()
             print(consoleOut)
 
-def tokenRing():
-    ######  inputs ######
-    senderID = raw_input
-    recieverID = raw_input
-    inputframe = raw_input
-    sender = raw_input
-    ######  sets ######
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(inputwire, GPIO.IN)
-    GPIO.setup(outputwire, GPIO.OUT)
-    GPIO.setup(Ackin, GPID.IN)
-    GPIO.setup(Ackout, GPIO.OUT)
-    GPIO.setup(thandshakein, GPIO.IN)
-    GPIO.setup(thandshakeout, GPIO.OUT)
-    ######## methods  #######
-    def __reciever__(message):
-        if (sender == sender ):
-            print( reciever(message))
-        elif(sender == null):
+### Reading message logic ###
+def flip_bit(gpio_id):
+    if(RPIO.input(gpio_id)):
+        RPIO.output(gpio_id, RPIO.LOW)
+    else:
+        RPIO.output(gpio_id, RPIO.HIGH)
+
+def read_bit(gpio_id, val):
+    currentBit = 0
+    if(RPIO.input(Ackin)):
+        if(currentBit < 4):
+            senderID.write(val, bool)
+        elif(currentBit < 8):
+            recieverID.write(val, bool)
         else:
-            for (i in range Ackin.high):
-                while(TSHin)
+            inputframe.write(val, bool)
 
-    for (i in range Ackin.high)
-        print (i)
-        while (thandShakein.high= True ):
-            print (foo)
-            sleep.time(2)
-                if (messager = True):
-                    print(mass)
-                    framebuffer = inputframe ##  this will take the input in the end
+        currentBit = currentBit + 1
+        flip_bit(Thandshakeout)
+    else:
+        currentBit = 0
 
-inputThread = threading.Thread(target=consoleInput, args=())
-outputThread = threading.Thread(target=consoleOutput, args())
-tokenRingThread = threading.Thread(target=tokenRing, args())
-inputThread.start()
-outputThread.start()
-tokenRingThread.start()
+def ackin_callback_falling(gpio_id, val):
+    read_message()
 
+def read_message():
+    sender = senderID.read(uint8, 1)
+    reciever = recieverID.read(uint8, 1)
+    while((inputframe // 8) != 0):
+        inputStr = inputStr + inputframe.read(str, 1)
+    parse_message(sender, reciever, inputStr)
+
+### Parsing and Writing Message Logic ###
+def parse_message(sender, reciever, message):
+    
+    #first check to see if message is meant for this node
+    if(reciever == nodeID):
+        outQueue.appendLeft(message)
+    #then check to see if message is empty, by checking if sender or reciever is 0
+    elif((sender == 0) or (reciever == 0)):
+        outMessage = None
+        if(len(inQueue) != 0):
+            outMessage = inQueue.pop()
+
+        send_message(outMessage)
+
+def send_message(message):
+    RPIO.output(Ackout, RPIO.HIGH)
+
+    
+
+### Adding Callbacks ###
+RPIO.add_interrupt_callback(Ackin, ackin_callback_rising, edge='rising')
+RPIO.add_interrupt_callback(Ackin, ackin_callback_falling, edge='falling')
+RPIO.add_interrupt_callback(Thandshakein, read_bit) #default edge is both
+RPIO.wait_for_interrupts()
