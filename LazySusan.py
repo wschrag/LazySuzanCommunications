@@ -1,7 +1,7 @@
 ##### Extrenal module
 import RPIO
 import threading
-import collections.deque
+import collections
 from bitstream import BitStream
 ###  Pin Declartions and Settings #####
 RPIO.setmode(RPIO.BOARD)
