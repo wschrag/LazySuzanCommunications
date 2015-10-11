@@ -91,7 +91,7 @@ def read_message():
     print('THSout is now output')
     GPIO.remove_event_detect(Thandshakeout)
     GPIO.setup(Thandshakeout, GPIO.OUT)
-
+    read_bit(inputwire)
     
     isSending = False
     print('isSending is: ')
@@ -174,7 +174,7 @@ def read_bit(gpio_id):
 
         GPIO.remove_event_detect(Thandshakein)
         flip_bit(Thandshakein)
-        GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit, bouncetime=100)
+        GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit)
 
 def send_bit(gpio_id):
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
@@ -205,5 +205,5 @@ outputThread.start()
 
 ### Adding Callbacks ###
 GPIO.add_event_detect(Ackin, GPIO.RISING, callback=ackin_callback_rising, bouncetime=100)
-GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=100) #default edge is both
+GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit) #default edge is both
 #GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=100) #default edge is both again
