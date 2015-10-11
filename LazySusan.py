@@ -117,6 +117,7 @@ def send_message(message):
 
 def send_bit(gpio_id, val):
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
+    print(len(outStream))
     if(outStream.read(bool, 1)):
         RPIO.output(outputwire, RPIO.HIGH)
     else:
