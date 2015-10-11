@@ -87,6 +87,7 @@ def ackin_callback(gpio_id):
         read_message()    
 
 def read_message():
+    global inputStr
     #setup reading state
     print('THSin is now input')
     GPIO.setup(Thandshakein, GPIO.IN)
@@ -179,6 +180,7 @@ def read_bit(gpio_id):
 
         GPIO.remove_event_detect(Thandshakein)
         flip_bit(Thandshakein)
+        time.sleep(0.001)
         GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit)
     else:
         GPIO.remove_event_detect(Thandshakein)
