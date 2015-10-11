@@ -44,6 +44,7 @@ def consoleInput():
     while(True):
         consoleIn = raw_input()
         if(consoleIn == 'start'):
+            print('starting token ring')
             outMessage = "000"
             send_message(outMessage)
         inQueue.appendleft(consoleIn)
