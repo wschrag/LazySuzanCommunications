@@ -127,7 +127,6 @@ inputThread.start()
 outputThread.start()
 
 ### Adding Callbacks ###
-RPIO.add_interrupt_callback(Ackin, ackin_callback_rising, edge='rising')
 RPIO.add_interrupt_callback(Ackin, ackin_callback_falling, edge='falling')
 RPIO.add_interrupt_callback(Thandshakein, read_bit) #default edge is both
 RPIO.wait_for_interrupts()
