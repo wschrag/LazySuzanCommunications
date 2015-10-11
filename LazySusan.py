@@ -70,7 +70,7 @@ def reset_sender_reciever():
 def flip_bit(gpio_id):
     GPIO.setup(gpio_id, GPIO.OUT)
 
-    if(GPIO.input(gpio_id)):
+    if(GPIO.input(gpio_id) == GPIO.HIGH):
         GPIO.output(gpio_id, GPIO.LOW)
     else:
         GPIO.output(gpio_id, GPIO.HIGH)   
@@ -180,7 +180,8 @@ def read_bit(gpio_id):
         GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit)
 
 def send_bit(gpio_id):
-    if(len(outStream) == 0):
+    if((len(outStream)) == 0):
+        print('outStream == 0 now')
         GPIO.remove_event_detect(Thandshakeout)
         finish_message()
 
