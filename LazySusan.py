@@ -105,7 +105,7 @@ def read_message():
     reciever = recieverID.read(np.uint8, 1)
     print('Reciever is: ')
     print(reciever)
-    while((inputframe // 8) != 0):
+    while((len(inputframe) // 8) != 0):
         inputStr = inputStr + inputframe.read(str, 1)
     print("inputStr is: ")
     print(inputStr)
