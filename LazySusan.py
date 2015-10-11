@@ -97,9 +97,8 @@ def read_message():
     #GPIO.remove_event_detect(Thandshakeout)
     GPIO.setup(Thandshakeout, GPIO.OUT)
 
-    if (len(inputframe) < 32):
-        for x in range(len(inputframe), 32):
-                inputframe.write(False)
+    for x in range(0, 32):
+        inputframe.write(False)
     
     isSending = False
     sender = senderID.read(np.uint8, 1)
