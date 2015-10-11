@@ -164,20 +164,19 @@ def read_bit(gpio_id):
         #logic for reading a bit
         writeVal = GPIO.input(inputwire)
         print(writeVal)
-        if(GPIO.input(Ackin)):
-            if(currentVal < 8):
-                senderID.write(writeVal, bool)
-            elif(currentVal < 16):
-                recieverID.write(writeVal, bool)
-            else:
-                inputframe.write(writeVal, bool)
+        if(currentVal < 8):
+            senderID.write(writeVal, bool)
+        elif(currentVal < 16):
+            recieverID.write(writeVal, bool)
+        else:
+            inputframe.write(writeVal, bool)
 
-            currentVal = currentVal + 1
-            bitLocation = currentVal
+        currentVal = currentVal + 1
+        bitLocation = currentVal
 
-            GPIO.remove_event_detect(Thandshakein)
-            flip_bit(Thandshakein)
-            GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit, bouncetime=100)
+        GPIO.remove_event_detect(Thandshakein)
+        flip_bit(Thandshakein)
+        GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit, bouncetime=100)
 
 def send_bit(gpio_id):
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
