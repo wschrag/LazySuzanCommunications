@@ -83,8 +83,6 @@ def flip_bit(gpio_id):
 
 def ackin_callback(gpio_id):
     if(GPIO.input(Ackin)):
-        print('ackin flip')
-        print(GPIO.input(Ackin))
         read_bit(inputwire)
     else:
         read_message()    
@@ -93,11 +91,9 @@ def read_message():
     global inputStr
     global inputframe
     #setup reading state
-    print('THSin is now input')
     GPIO.setup(Thandshakein, GPIO.IN)
     GPIO.remove_event_detect(Thandshakein)
     #GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=100)
-    print('THSout is now output')
     #GPIO.remove_event_detect(Thandshakeout)
     GPIO.setup(Thandshakeout, GPIO.OUT)
     
@@ -143,10 +139,8 @@ def parse_message(sender, reciever, message):
 
 def send_message(message):
     #setup sending state
-    print('THSout is now input')
     GPIO.setup(Thandshakeout, GPIO.IN)
     GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=150)
-    print('THSin is now output')
     GPIO.remove_event_detect(Thandshakein)
     GPIO.setup(Thandshakein, GPIO.OUT)
 
@@ -196,7 +190,6 @@ def read_bit(gpio_id):
 
 def send_bit(gpio_id):
     if((len(outStream)) == 0):
-        print('outStream == 0 now')
         GPIO.remove_event_detect(Thandshakeout)
         finish_message()
         return
@@ -208,7 +201,6 @@ def send_bit(gpio_id):
     else:
         GPIO.output(outputwire, GPIO.LOW)
     
-    print('flipping THSout after sending bit')
     GPIO.remove_event_detect(Thandshakeout)
     flip_bit(Thandshakeout)
     time.sleep(0.250)
