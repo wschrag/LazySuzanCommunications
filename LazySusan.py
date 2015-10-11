@@ -63,6 +63,9 @@ def consoleOutput():
 
 ### Resetting values that need to be reset ###
 def reset_sender_reciever():
+    global sender
+    global reciever
+    global bitLocation
     sender = None
     reciever = None
     bitLocation = 0
