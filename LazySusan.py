@@ -49,7 +49,7 @@ def consoleInput():
         consoleIn = raw_input()
         if(consoleIn == 'start'):
             print('starting token ring')
-            outMessage = "000"
+            outMessage = "13Hello"
             send_message(outMessage)
         inQueue.appendleft(consoleIn)
 
@@ -180,17 +180,21 @@ def finish_message():
 ### Reading and Sending Bits ###
 def read_bit(gpio_id):
     if(not isSending):
+        currentVal = bitLocation
+
         #logic for reading a bit
         writeVal = GPIO.input(inputwire)
+        print(writeVal)
         if(GPIO.input(Ackin)):
-            if(bitLocation < 8):
+            if(currentVal < 8):
                 senderID.write(writeVal, bool)
-            elif(bitLocation < 16):
+            elif(currentVal < 16):
                 recieverID.write(writeVal, bool)
             else:
                 inputframe.write(writeVal, bool)
 
-            bitLocation = bitLocation + 1
+            currentVal = currentVal + 1
+            bitLocation = currentVal
             flip_bit(Thandshakein)
 
 def send_bit(gpio_id):
