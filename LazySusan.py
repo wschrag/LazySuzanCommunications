@@ -89,7 +89,7 @@ def read_message():
     #setup reading state
     print('THSin is now input')
     GPIO.setup(Thandshakein, GPIO.IN)
-    GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
+    GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=100)
     print('THSout is now output')
     #GPIO.remove_event_detect(Thandshakeout)
     GPIO.setup(Thandshakeout, GPIO.OUT)
@@ -133,7 +133,7 @@ def send_message(message):
     #setup sending state
     print('THSout is now input')
     GPIO.setup(Thandshakeout, GPIO.IN)
-    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
+    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=100)
     print('THSin is now output')
     GPIO.remove_event_detect(Thandshakein)
     GPIO.setup(Thandshakein, GPIO.OUT)
@@ -198,6 +198,7 @@ def send_bit(gpio_id):
     print('flipping THSout after sending bit')
     GPIO.remove_event_detect(Thandshakeout)
     flip_bit(Thandshakeout)
+    time.sleep(0.001)
     GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=100)
 
 ### Starting input and output threads ###
