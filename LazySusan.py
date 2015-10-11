@@ -7,6 +7,7 @@ import collections
 from bitstream import BitStream
 ###  Pin Declartions and Settings #####
 GPIO.setmode(GPIO.BOARD)
+GPIO.cleanup()
 outputwire = 33
 inputwire= 31
 Ackin = 36
