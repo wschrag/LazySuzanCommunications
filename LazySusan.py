@@ -25,7 +25,7 @@ nodeID = sys.argv[1]
 inQueue = collections.deque()
 outQueue = collections.deque()
 
-### global vars ###
+### global-scoped vars ###
 sender = None
 reciever = None
 senderID = BitStream()
@@ -120,7 +120,7 @@ def send_message(message):
 
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
-outputThread = threading.Thread(target=consoleOutput, args())
+outputThread = threading.Thread(target=consoleOutput, args=())
 inputThread.start()
 outputThread.start()
 
