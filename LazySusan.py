@@ -35,7 +35,6 @@ GPIO.setup(Thandshakein, GPIO.IN)
 GPIO.setup(Thandshakeout, GPIO.OUT)
 GPIO.setwarnings(False)
 
-GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback, bouncetime=10)
 ###### input and output threads ######
 
 nodeID = sys.argv[1]
@@ -195,5 +194,6 @@ sendThread.start()
 readThread.start()
 
 ### Adding Callbacks ###
+GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback, bouncetime=10)
 #GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10) #default edge is both
 #GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10) #default edge is both again
