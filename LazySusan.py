@@ -90,6 +90,7 @@ def read_message():
     #setup reading state
     print('THSin is now input')
     GPIO.setup(Thandshakein, GPIO.IN)
+    GPIO.remove_event_detect(Thandshakein)
     GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=100)
     print('THSout is now output')
     #GPIO.remove_event_detect(Thandshakeout)
