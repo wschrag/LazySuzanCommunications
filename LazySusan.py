@@ -25,7 +25,7 @@ outStream = BitStream()
 inputStr = ''
 sender = BitStream()
 currentBit = 0
-isSending = None
+isSending = False
 
 GPIO.setup(outputwire, GPIO.OUT)
 GPIO.setup(inputwire, GPIO.IN)
@@ -67,6 +67,7 @@ def sending_state():
                 GPIO.setup(Thandshakeout, GPIO.IN)
                 GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
             else:
+                print('THSout is now output')
                 GPIO.remove_event_detect(Thandshakeout)
                 GPIO.setup(Thandshakeout, GPIO.OUT)
 
@@ -78,6 +79,7 @@ def reading_state():
                 GPIO.setup(Thandshakein, GPIO.IN)
                 GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
             else:
+                print('THSin is now output')
                 GPIO.remove_event_detect(Thandshakein)
                 GPIO.setup(Thandshakein, GPIO.OUT)
 
