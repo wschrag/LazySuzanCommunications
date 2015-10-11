@@ -115,6 +115,7 @@ def read_message():
 
 ### Parsing and Writing Message Logic ###
 def parse_message(sender, reciever, message):
+    global inQueue
     print(message)
     
     #first check to see if message is meant for this node
@@ -126,12 +127,16 @@ def parse_message(sender, reciever, message):
         
     #then check to see if message is empty, by checking if sender or reciever is 0
     elif((sender == 0) or (reciever == 0)):
-        outMessage = None
+        outMessage = ''
         if(len(inQueue) != 0):
             outMessage = inQueue.pop()
+        else:
+            outMessage = "000"
         
         reset_sender_reciever()
         send_message(outMessage)
+    else:
+        send_message(message)
 
 def send_message(message):
     #setup sending state
