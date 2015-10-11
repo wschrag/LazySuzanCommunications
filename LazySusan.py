@@ -184,14 +184,13 @@ def send_bit(gpio_id):
     else:
         GPIO.output(outputwire, GPIO.LOW)
 
+    if(len(outStream) == 0):
+        finish_message()
+
     print('flipping THSout after sending bit')
     GPIO.remove_event_detect(Thandshakeout)
     flip_bit(Thandshakeout)
     GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=100)
-
-    if(len(outStream) == 0):
-        finish_message()
-
 
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
