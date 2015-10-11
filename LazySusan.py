@@ -49,7 +49,7 @@ def consoleInput():
         consoleIn = raw_input()
         if(consoleIn == 'start'):
             print('starting token ring')
-            outMessage = "13Hello"
+            outMessage = "000"
             send_message(outMessage)
         inQueue.appendleft(consoleIn)
 
@@ -103,6 +103,7 @@ def flip_bit(gpio_id):
 
 def ackin_callback(gpio_id):
     print('ackin flip')
+    print(GPIO.input(Ackin))
     if(GPIO.input(Ackin)):
         read_message()
     
