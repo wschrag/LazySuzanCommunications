@@ -59,7 +59,7 @@ def consoleOutput():
             consoleOut = outQueue.pop()
             print(consoleOut)
 
-def sending_state():
+def sending_state(isSending):
     while(True):
         if(isSending != None):
             if(isSending):
@@ -104,6 +104,15 @@ def ackin_callback(gpio_id):
     
 
 def read_message():
+    #setup reading state
+    print('THSin is now input')
+    GPIO.setup(Thandshakein, GPIO.IN)
+    GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
+    print('THSout is now output')
+    GPIO.remove_event_detect(Thandshakeout)
+    GPIO.setup(Thandshakeout, GPIO.OUT)
+
+    
     isSending = False
     print('isSending is: ')
     print(isSending)
@@ -140,6 +149,15 @@ def parse_message(sender, reciever, message):
         send_message(outMessage)
 
 def send_message(message):
+    #setup sending state
+    print('THSout is now input')
+    GPIO.setup(Thandshakeout, GPIO.IN)
+    GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
+    print('THSin is now output')
+    GPIO.remove_event_detect(Thandshakein)
+    GPIO.setup(Thandshakein, GPIO.OUT)
+
+
     print("Sending Message: ")
     print(message)
     isSending = True
@@ -189,12 +207,12 @@ def send_bit(gpio_id):
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
 outputThread = threading.Thread(target=consoleOutput, args=())
-sendThread = threading.Thread(target=sending_state, args=())
-readThread = threading.Thread(target=reading_state, args=())
+#sendThread = threading.Thread(target=sending_state, args=())
+#readThread = threading.Thread(target=reading_state, args=())
 inputThread.start()
 outputThread.start()
-sendThread.start()
-readThread.start()
+#sendThread.start()
+#readThread.start()
 
 ### Adding Callbacks ###
 GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback, bouncetime=10)
