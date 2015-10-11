@@ -178,4 +178,3 @@ outputThread.start()
 GPIO.add_event_detect(Ackin, GPIO.FALLING, callback=ackin_callback_falling)
 GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_send_bit) #default edge is both
 #GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit) #default edge is both again
-GPIO.wait_for_edge()
