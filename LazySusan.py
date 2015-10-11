@@ -14,6 +14,18 @@ Ackout = 37
 Thandshakein = 29
 Thandshakeout = 32
 
+### global-scoped vars ###
+sender = None
+reciever = None
+senderID = BitStream()
+recieverID = BitStream()
+inputframe = BitStream()
+outStream = BitStream()
+inputStr = ''
+sender = BitStream()
+currentBit = 0
+isSending = False
+
 GPIO.setup(outputwire, GPIO.OUT)
 GPIO.setup(inputwire, GPIO.IN)
 GPIO.setup(Ackin, GPIO.IN)
@@ -28,17 +40,6 @@ nodeID = sys.argv[1]
 inQueue = collections.deque()
 outQueue = collections.deque()
 
-### global-scoped vars ###
-sender = None
-reciever = None
-senderID = BitStream()
-recieverID = BitStream()
-inputframe = BitStream()
-outStream = BitStream()
-inputStr = ''
-sender = BitStream()
-currentBit = 0
-isSending = False
 
 
 def consoleInput():
