@@ -187,7 +187,6 @@ def read_bit(gpio_id):
 
         GPIO.remove_event_detect(Thandshakein)
         flip_bit(Thandshakein)
-        time.sleep(0.250)
         GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit)
     else:
         GPIO.remove_event_detect(Thandshakein)
@@ -207,7 +206,6 @@ def send_bit(gpio_id):
     
     GPIO.remove_event_detect(Thandshakeout)
     flip_bit(Thandshakeout)
-    time.sleep(0.250)
     GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit)
 
 ### Starting input and output threads ###
