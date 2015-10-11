@@ -188,7 +188,7 @@ def send_bit(gpio_id):
     print(len(outStream))
     sendBit = outStream.read(bool, 1)
     print(sendBit)
-    if(sendBit):
+    if(sendBit[0]):
         GPIO.output(outputwire, GPIO.HIGH)
     else:
         GPIO.output(outputwire, GPIO.LOW)
