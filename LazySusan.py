@@ -68,21 +68,7 @@ def flip_bit(gpio_id):
     if(GPIO.input(gpio_id)):
         GPIO.output(gpio_id, GPIO.LOW)
     else:
-        GPIO.output(gpio_id, GPIO.HIGH)
-
-def read_bit(gpio_id):
-    writeVal = GPIO.input(inputwire)
-    if(GPIO.input(Ackin)):
-        if(currentBit < 8):
-            senderID.write(writeVal, bool)
-        elif(currentBit < 16):
-            recieverID.write(writeVal, bool)
-        else:
-            inputframe.write(writeVal, bool)
-
-        currentBit = currentBit + 1
-        flip_bit(Thandshakeout)
-        
+        GPIO.output(gpio_id, GPIO.HIGH)   
 
 def ackin_callback_falling(gpio_id):
     read_message()
@@ -118,20 +104,6 @@ def send_message(message):
     GPIO.output(Ackout, GPIO.HIGH)
     #now to form output bitstream message
     outStream.write(message, str)
-
-def send_bit(gpio_id):
-    if(isSending):
-        #now the logic for sending the message via outputWire and Thandshakeout bit by bit
-        print(len(outStream))
-        if(outStream.read(bool, 1)):
-            GPIO.output(outputwire, GPIO.HIGH)
-        else:
-            GPIO.output(outputwire, GPIO.LOW)
-
-        flip_bit(Thandshakeout)
-
-        if(len(outStream) == 0):
-            finish_message()
 
 def finish_message():
     isSending = False
