@@ -65,8 +65,8 @@ def sending_state():
                 GPIO.setup(Thandshakeout, GPIO.IN)
                 GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
             else:
-                GPIO.setup(Thandshakeout, GPIO.OUT)
                 GPIO.remove_event_detect(Thandshakeout)
+                GPIO.setup(Thandshakeout, GPIO.OUT)
 
 def reading_state():
     while(True):
@@ -75,8 +75,8 @@ def reading_state():
                 GPIO.setup(Thandshakein, GPIO.IN)
                 GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
             else:
-                GPIO.setup(Thandshakein, GPIO.OUT)
                 GPIO.remove_event_detect(Thandshakein)
+                GPIO.setup(Thandshakein, GPIO.OUT)
 
 
 ### Resetting values that need to be reset ###
@@ -164,48 +164,17 @@ def read_bit(gpio_id):
             flip_bit(Thandshakein)
 
 def send_bit(gpio_id):
-    if(isSending):
-        #now the logic for sending the message via outputWire and Thandshakeout bit by bit
-        print(len(outStream))
-        if(outStream.read(bool, 1)):
-            GPIO.output(outputwire, GPIO.HIGH)
-        else:
-            GPIO.output(outputwire, GPIO.LOW)
-
-        flip_bit(Thandshakeout)
-
-        if(len(outStream) == 0):
-            finish_message()
-
-
-
-def read_send_bit(gpio_id):
-    if(isSending):
-        #now the logic for sending the message via outputWire and Thandshakeout bit by bit
-        print(len(outStream))
-        if(outStream.read(bool, 1)):
-            GPIO.output(outputwire, GPIO.HIGH)
-        else:
-            GPIO.output(outputwire, GPIO.LOW)
-
-        flip_bit(Thandshakeout)
-
-        if(len(outStream) == 0):
-            finish_message()
+    #now the logic for sending the message via outputWire and Thandshakeout bit by bit
+    print(len(outStream))
+    if(outStream.read(bool, 1)):
+        GPIO.output(outputwire, GPIO.HIGH)
     else:
-        #logic for reading a bit
-        writeVal = GPIO.input(inputwire)
-        if(GPIO.input(Ackin)):
-            if(currentBit < 8):
-                senderID.write(writeVal, bool)
-            elif(currentBit < 16):
-                recieverID.write(writeVal, bool)
-            else:
-                inputframe.write(writeVal, bool)
+        GPIO.output(outputwire, GPIO.LOW)
 
-            currentBit = currentBit + 1
-            flip_bit(Thandshakein)
+    flip_bit(Thandshakeout)
 
+    if(len(outStream) == 0):
+        finish_message()
 
 
 ### Starting input and output threads ###
