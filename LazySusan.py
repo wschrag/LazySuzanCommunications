@@ -140,7 +140,7 @@ inputThread.start()
 outputThread.start()
 
 ### Adding Callbacks ###
-RPIO.add_interrupt_callback(Ackin, ackin_callback_falling, edge='falling')
-RPIO.add_interrupt_callback(Thandshakein, read_bit) #default edge is both
-RPIO.add_interrupt_callback(Thandshakeout, send_bit) #default edge is both again
+RPIO.add_interrupt_callback(Ackin, ackin_callback_falling, edge='falling', debounce_timeout_ms=10)
+RPIO.add_interrupt_callback(Thandshakein, read_bit, debounce_timeout_ms=10) #default edge is both
+RPIO.add_interrupt_callback(Thandshakeout, send_bit, debounce_timeout_ms=10) #default edge is both again
 RPIO.wait_for_interrupts()
