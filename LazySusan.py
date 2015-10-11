@@ -178,6 +178,7 @@ def read_bit(gpio_id):
 
 def send_bit(gpio_id):
     if(len(outStream) == 0):
+        GPIO.remove_event_detect(Thandshakeout)
         finish_message()
 
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
