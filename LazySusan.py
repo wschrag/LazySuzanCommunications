@@ -24,7 +24,7 @@ inputframe = BitStream()
 outStream = BitStream()
 inputStr = ''
 sender = BitStream()
-currentBit = 0
+bitLocation = 0
 isSending = False
 
 GPIO.setup(outputwire, GPIO.OUT)
@@ -88,7 +88,7 @@ def reading_state():
 def reset_sender_reciever():
     sender = None
     reciever = None
-    currentBit = 0
+    bitLocation = 0
 
 ### Reading message logic ###
 def flip_bit(gpio_id):
@@ -183,14 +183,14 @@ def read_bit(gpio_id):
         #logic for reading a bit
         writeVal = GPIO.input(inputwire)
         if(GPIO.input(Ackin)):
-            if(currentBit < 8):
+            if(bitLocation < 8):
                 senderID.write(writeVal, bool)
-            elif(currentBit < 16):
+            elif(bitLocation < 16):
                 recieverID.write(writeVal, bool)
             else:
                 inputframe.write(writeVal, bool)
 
-            currentBit = currentBit + 1
+            bitLocation = bitLocation + 1
             flip_bit(Thandshakein)
 
 def send_bit(gpio_id):
