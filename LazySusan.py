@@ -105,6 +105,7 @@ def read_message():
 
 ### Parsing and Writing Message Logic ###
 def parse_message(sender, reciever, message):
+    print(message)
     
     #first check to see if message is meant for this node
     if(reciever == nodeID):
