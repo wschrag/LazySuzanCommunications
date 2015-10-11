@@ -1,4 +1,5 @@
 ##### Extrenal module
+import numpy as np
 import sys
 import RPIO
 import threading
@@ -86,8 +87,8 @@ def ackin_callback_falling(gpio_id, val):
     read_message()
 
 def read_message():
-    sender = senderID.read(uint8, 1)
-    reciever = recieverID.read(uint8, 1)
+    sender = senderID.read(np.uint8, 1)
+    reciever = recieverID.read(np.uint8, 1)
     while((inputframe // 8) != 0):
         inputStr = inputStr + inputframe.read(str, 1)
     parse_message(sender, reciever, inputStr)
