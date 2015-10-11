@@ -32,6 +32,7 @@ reciever = None
 senderID = BitStream()
 recieverID = BitStream()
 inputframe = BitStream()
+outStream = BitStream()
 inputStr = ''
 sender = BitStream()
 currentBit = 0
@@ -108,17 +109,27 @@ def parse_message(sender, reciever, message):
         send_message(outMessage)
 
 def send_message(message):
+    #
     RPIO.output(Ackout, RPIO.HIGH)
     #now to form output bitstream message
-    outStream = BitStream()
     outStream.write(message, str)
 
-    #now the logic for sending the message via outputWire and Thandshakeout
-    while(len(outStream) != 0):
-        RPIO.output(outputwire, outStream.read(bool, 1))
-        flip_bit(Thandshakeout)
+def send_bit(gpio_id, val):
+    #now the logic for sending the message via outputWire and Thandshakeout bit by bit
+    if(outStream.read(bool, 1)):
+        RPIO.output(outputwire, RPIO.HIGH)
+    else:
+        RPIO.output(outputwire, RPIO.LOW)
 
+    flip_bit(Thandshakeout)
+
+    if(len(outStream) == 0):
+        finish_message()
+
+def finish_message():
+    #send ack to let reciever know message is now done
     RPIO.output(Ackout, RPIO.LOW)
+
 
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
@@ -129,4 +140,5 @@ outputThread.start()
 ### Adding Callbacks ###
 RPIO.add_interrupt_callback(Ackin, ackin_callback_falling, edge='falling')
 RPIO.add_interrupt_callback(Thandshakein, read_bit) #default edge is both
+RPIO.add_interrupt_callback(Thandshakeout, send_bit) #default edge is both again
 RPIO.wait_for_interrupts()
