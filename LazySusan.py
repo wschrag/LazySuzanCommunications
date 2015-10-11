@@ -91,7 +91,7 @@ def read_message():
     GPIO.setup(Thandshakein, GPIO.IN)
     GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
     print('THSout is now output')
-    GPIO.remove_event_detect(Thandshakeout)
+    #GPIO.remove_event_detect(Thandshakeout)
     GPIO.setup(Thandshakeout, GPIO.OUT)
     
     isSending = False
