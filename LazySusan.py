@@ -197,8 +197,8 @@ def read_send_bit(gpio_id):
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
 outputThread = threading.Thread(target=consoleOutput, args=())
-sendThread = threading.Thread(target=sending_state, args())
-readThread = threading.Thread(target=reading_state, args())
+sendThread = threading.Thread(target=sending_state, args=())
+readThread = threading.Thread(target=reading_state, args=())
 inputThread.start()
 outputThread.start()
 sendThread.start()
