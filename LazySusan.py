@@ -152,6 +152,8 @@ def finish_message():
     isSending = False
     #send ack to let reciever know message is now done
     GPIO.output(Ackout, GPIO.LOW)
+    #go back into reading state
+
 
 ### Reading and Sending Bits ###
 def read_bit(gpio_id):
@@ -183,7 +185,9 @@ def send_bit(gpio_id):
 
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
     print(len(outStream))
-    if(outStream.read(bool, 1)):
+    sendBit = outStream.read(bool, 1)
+    print(sendBit)
+    if(sendBit):
         GPIO.output(outputwire, GPIO.HIGH)
     else:
         GPIO.output(outputwire, GPIO.LOW)
