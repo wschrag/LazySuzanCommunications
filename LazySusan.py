@@ -180,6 +180,7 @@ def finish_message():
 ### Reading and Sending Bits ###
 def read_bit(gpio_id):
     if(not isSending):
+        global bitLocation
         currentVal = bitLocation
 
         #logic for reading a bit
