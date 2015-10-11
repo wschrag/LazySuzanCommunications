@@ -180,16 +180,13 @@ def read_bit(gpio_id):
         GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit)
 
 def send_bit(gpio_id):
-    sendBit = []
-
     if(len(outStream) == 0):
         GPIO.remove_event_detect(Thandshakeout)
         finish_message()
 
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
     print(len(outStream))
-    sendBit = outStream.read(bool, 1)
-    if(sendBit[0]):
+    if(outStream.read(bool, 1)):
         GPIO.output(outputwire, GPIO.HIGH)
     else:
         GPIO.output(outputwire, GPIO.LOW)
