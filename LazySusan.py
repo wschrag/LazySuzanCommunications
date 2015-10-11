@@ -174,7 +174,7 @@ def read_bit(gpio_id):
 
         GPIO.remove_event_detect(Thandshakein)
         flip_bit(Thandshakein)
-        GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit)
+        GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit)
 
 def send_bit(gpio_id):
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
