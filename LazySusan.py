@@ -88,6 +88,7 @@ def ackin_callback(gpio_id):
 
 def read_message():
     global inputStr
+    global inputframe
     #setup reading state
     print('THSin is now input')
     GPIO.setup(Thandshakein, GPIO.IN)
