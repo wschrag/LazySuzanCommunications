@@ -1,4 +1,5 @@
 ##### Extrenal module
+import sys
 import RPIO
 import threading
 import collections
