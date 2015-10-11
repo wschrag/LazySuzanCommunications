@@ -58,6 +58,25 @@ def consoleOutput():
             consoleOut = outQueue.pop()
             print(consoleOut)
 
+def sending_state():
+    while(True):
+        if(isSending):
+            GPIO.setup(Thandshakeout, GPIO.IN)
+            GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
+        else:
+            GPIO.setup(Thandshakeout, GPIO.OUT)
+            GPIO.remove_event_detect(Thandshakeout)
+
+def reading_state():
+    while(True):
+        if(not isSending):
+            GPIO.setup(Thandshakein, GPIO.IN)
+            GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
+        else:
+            GPIO.setup(Thandshakein, GPIO.OUT)
+            GPIO.remove_event_detect(Thandshakein)
+
+
 ### Resetting values that need to be reset ###
 def reset_sender_reciever():
     sender = None
@@ -71,10 +90,13 @@ def flip_bit(gpio_id):
     else:
         GPIO.output(gpio_id, GPIO.HIGH)   
 
-def ackin_callback_falling(gpio_id):
-    read_message()
+def ackin_callback(gpio_id):
+    if(GPIO.input(Ackin)):
+        read_message()
+    
 
 def read_message():
+    isSending = False
     sender = senderID.read(np.uint8, 1)
     reciever = recieverID.read(np.uint8, 1)
     while((inputframe // 8) != 0):
@@ -175,10 +197,14 @@ def read_send_bit(gpio_id):
 ### Starting input and output threads ###
 inputThread = threading.Thread(target=consoleInput, args=())
 outputThread = threading.Thread(target=consoleOutput, args=())
+sendThread = threading.Thread(target=sending_state, args())
+readThread = threading.Thread(target=reading_state, args())
 inputThread.start()
 outputThread.start()
+sendThread.start()
+readThread.start()
 
 ### Adding Callbacks ###
-GPIO.add_event_detect(Ackin, GPIO.FALLING, callback=ackin_callback_falling, bouncetime=10)
-GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10) #default edge is both
-GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10) #default edge is both again
+GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback, bouncetime=10)
+#GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10) #default edge is both
+#GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10) #default edge is both again
