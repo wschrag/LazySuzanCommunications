@@ -92,14 +92,14 @@ def reset_sender_reciever():
 
 ### Reading message logic ###
 def flip_bit(gpio_id):
-    GPIO.setup(gpio_id, GPIO.IN)
+    GPIO.setup(gpio_id, GPIO.OUT)
 
     if(GPIO.input(gpio_id)):
         GPIO.output(gpio_id, GPIO.LOW)
     else:
         GPIO.output(gpio_id, GPIO.HIGH)   
 
-    GPIO.setup(gpio_id, GPIO.OUT)
+    GPIO.setup(gpio_id, GPIO.IN)
 
 def ackin_callback(gpio_id):
     print('ackin flip')
