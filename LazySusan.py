@@ -113,7 +113,6 @@ def parse_message(sender, reciever, message):
         send_message(outMessage)
 
 def send_message(message):
-    #
     isSending = True
     GPIO.output(Ackout, GPIO.HIGH)
     #now to form output bitstream message
