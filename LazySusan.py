@@ -158,7 +158,7 @@ def finish_message():
 
 ### Reading and Sending Bits ###
 def read_bit(gpio_id):
-    if(not isSending):
+    if(GPIO.input(Ackin) == GPIO.HIGH):
         global bitLocation
         currentVal = bitLocation
 
@@ -178,6 +178,8 @@ def read_bit(gpio_id):
         GPIO.remove_event_detect(Thandshakein)
         flip_bit(Thandshakein)
         GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit)
+    else:
+        GPIO.remove_event_detect(Thandshakein)
 
 def send_bit(gpio_id):
     if((len(outStream)) == 0):
