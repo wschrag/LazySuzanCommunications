@@ -188,7 +188,7 @@ def send_bit(gpio_id):
 
     #now the logic for sending the message via outputWire and Thandshakeout bit by bit
     print(len(outStream))
-    if(outStream.read(bool, 1)[0]):
+    if(outStream.read(bool, 1) == [True]):
         GPIO.output(outputwire, GPIO.HIGH)
     else:
         GPIO.output(outputwire, GPIO.LOW)
