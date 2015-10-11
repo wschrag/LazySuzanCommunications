@@ -59,30 +59,6 @@ def consoleOutput():
             consoleOut = outQueue.pop()
             print(consoleOut)
 
-def sending_state(isSending):
-    while(True):
-        if(isSending != None):
-            if(isSending):
-                print('THSout is now input')
-                GPIO.setup(Thandshakeout, GPIO.IN)
-                GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
-            else:
-                print('THSout is now output')
-                GPIO.remove_event_detect(Thandshakeout)
-                GPIO.setup(Thandshakeout, GPIO.OUT)
-
-def reading_state():
-    while(True):
-        if(isSending != None):
-            if(not isSending):
-                print('THSin is now input')
-                GPIO.setup(Thandshakein, GPIO.IN)
-                GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
-            else:
-                print('THSin is now output')
-                GPIO.remove_event_detect(Thandshakein)
-                GPIO.setup(Thandshakein, GPIO.OUT)
-
 
 ### Resetting values that need to be reset ###
 def reset_sender_reciever():
@@ -102,6 +78,7 @@ def flip_bit(gpio_id):
     GPIO.setup(gpio_id, GPIO.IN)
 
 def ackin_callback_rising(gpio_id):
+    print('printing ackin')
     print(GPIO.input(Ackin))
     print('ackin flip')
     print(GPIO.input(Ackin))
