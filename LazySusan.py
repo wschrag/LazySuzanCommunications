@@ -62,6 +62,7 @@ def sending_state():
     while(True):
         if(isSending != None):
             if(isSending):
+                print('THSout is now input')
                 GPIO.setup(Thandshakeout, GPIO.IN)
                 GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
             else:
@@ -72,6 +73,7 @@ def reading_state():
     while(True):
         if(isSending != None):
             if(not isSending):
+                print('THSin is now input')
                 GPIO.setup(Thandshakein, GPIO.IN)
                 GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
             else:
