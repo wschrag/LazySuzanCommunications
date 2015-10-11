@@ -25,7 +25,6 @@ outStream = BitStream()
 inputStr = ''
 sender = BitStream()
 currentBit = 0
-isSending = False
 
 GPIO.setup(outputwire, GPIO.OUT)
 GPIO.setup(inputwire, GPIO.IN)
@@ -60,21 +59,23 @@ def consoleOutput():
 
 def sending_state():
     while(True):
-        if(isSending):
-            GPIO.setup(Thandshakeout, GPIO.IN)
-            GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
-        else:
-            GPIO.setup(Thandshakeout, GPIO.OUT)
-            GPIO.remove_event_detect(Thandshakeout)
+        if(isSending != None):
+            if(isSending):
+                GPIO.setup(Thandshakeout, GPIO.IN)
+                GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=10)
+            else:
+                GPIO.setup(Thandshakeout, GPIO.OUT)
+                GPIO.remove_event_detect(Thandshakeout)
 
 def reading_state():
     while(True):
-        if(not isSending):
-            GPIO.setup(Thandshakein, GPIO.IN)
-            GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
-        else:
-            GPIO.setup(Thandshakein, GPIO.OUT)
-            GPIO.remove_event_detect(Thandshakein)
+        if(isSending != None):
+            if(not isSending):
+                GPIO.setup(Thandshakein, GPIO.IN)
+                GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=10)
+            else:
+                GPIO.setup(Thandshakein, GPIO.OUT)
+                GPIO.remove_event_detect(Thandshakein)
 
 
 ### Resetting values that need to be reset ###
