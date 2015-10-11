@@ -1,12 +1,12 @@
 ##### Extrenal module
 import numpy as np
 import sys
-import RPIO
+import RPi.GPIO as GPIO
 import threading
 import collections
 from bitstream import BitStream
 ###  Pin Declartions and Settings #####
-RPIO.setmode(RPIO.BOARD)
+GPIO.setmode(RPIO.BOARD)
 outputwire = 33
 inputwire= 31
 Ackin = 36
@@ -14,13 +14,13 @@ Ackout = 37
 Thandshakein = 29
 Thandshakeout = 32
 
-RPIO.setup(outputwire, RPIO.OUT)
-RPIO.setup(inputwire, RPIO.IN)
-RPIO.setup(Ackin, RPIO.IN)
-RPIO.setup(Ackout, RPIO.OUT)
-RPIO.setup(Thandshakein, RPIO.IN)
-RPIO.setup(Thandshakeout, RPIO.OUT)
-RPIO.setwarnings(False)
+GPIO.setup(outputwire, RPIO.OUT)
+GPIO.setup(inputwire, RPIO.IN)
+GPIO.setup(Ackin, RPIO.IN)
+GPIO.setup(Ackout, RPIO.OUT)
+GPIO.setup(Thandshakein, RPIO.IN)
+GPIO.setup(Thandshakeout, RPIO.OUT)
+GPIO.setwarnings(False)
 ###### input and output threads ######
 
 nodeID = sys.argv[1]
@@ -64,14 +64,14 @@ def reset_sender_reciever():
 
 ### Reading message logic ###
 def flip_bit(gpio_id):
-    if(RPIO.input(gpio_id)):
-        RPIO.output(gpio_id, RPIO.LOW)
+    if(GPIO.input(gpio_id)):
+        GPIO.output(gpio_id, GPIO.LOW)
     else:
-        RPIO.output(gpio_id, RPIO.HIGH)
+        GPIO.output(gpio_id, GPIO.HIGH)
 
 def read_bit(gpio_id, val):
-    writeVal = RPIO.input(inputwire)
-    if(RPIO.input(Ackin)):
+    writeVal = GPIO.input(inputwire)
+    if(GPIO.input(Ackin)):
         if(currentBit < 8):
             senderID.write(writeVal, bool)
         elif(currentBit < 16):
@@ -115,7 +115,7 @@ def parse_message(sender, reciever, message):
 def send_message(message):
     #
     isSending = True
-    RPIO.output(Ackout, RPIO.HIGH)
+    GPIO.output(Ackout, GPIO.HIGH)
     #now to form output bitstream message
     outStream.write(message, str)
 
@@ -124,9 +124,9 @@ def send_bit(gpio_id, val):
         #now the logic for sending the message via outputWire and Thandshakeout bit by bit
         print(len(outStream))
         if(outStream.read(bool, 1)):
-            RPIO.output(outputwire, RPIO.HIGH)
+            GPIO.output(outputwire, GPIO.HIGH)
         else:
-            RPIO.output(outputwire, RPIO.LOW)
+            GPIO.output(outputwire, GPIO.LOW)
 
         flip_bit(Thandshakeout)
 
@@ -136,7 +136,7 @@ def send_bit(gpio_id, val):
 def finish_message():
     isSending = False
     #send ack to let reciever know message is now done
-    RPIO.output(Ackout, RPIO.LOW)
+    GPIO.output(Ackout, GPIO.LOW)
 
 
 ### Starting input and output threads ###
@@ -146,7 +146,7 @@ inputThread.start()
 outputThread.start()
 
 ### Adding Callbacks ###
-RPIO.add_interrupt_callback(Ackin, ackin_callback_falling, edge='falling', debounce_timeout_ms=10)
-RPIO.add_interrupt_callback(Thandshakein, read_bit) #default edge is both
-RPIO.add_interrupt_callback(Thandshakein, send_bit) #default edge is both again
-RPIO.wait_for_interrupts()
+GPIO.add_event_detect(Ackin, GPIO.FALLING, callback=ackin_falling_callback)
+GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit) #default edge is both
+GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=send_bit) #default edge is both again
+GPIO.wait_for_edge()
