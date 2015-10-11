@@ -12,8 +12,8 @@ Ackout = 37
 Thandshakein = 29
 Thandshakeout = 32
 
-RPIO.setup(outputWire, RPIO.OUT)
-RPIO.setup(inputWire, RPIO.IN)
+RPIO.setup(outputwire, RPIO.OUT)
+RPIO.setup(inputwire, RPIO.IN)
 RPIO.setup(Ackin, RPIO.IN)
 RPIO.setup(Ackout, RPIO.OUT)
 RPIO.setup(Thandshakein, RPIO.IN)
@@ -33,6 +33,7 @@ recieverID = BitStream()
 inputframe = BitStream()
 inputStr = ''
 sender = BitStream()
+currentBit = 0
 
 
 def consoleInput():
@@ -53,6 +54,7 @@ def consoleOutput():
 def reset_sender_reciever():
     sender = None
     reciever = None
+    currentBit = 0
 
 ### Reading message logic ###
 def flip_bit(gpio_id):
@@ -62,19 +64,18 @@ def flip_bit(gpio_id):
         RPIO.output(gpio_id, RPIO.HIGH)
 
 def read_bit(gpio_id, val):
-    currentBit = 0
+    writeVal = RPIO.input(inputwire)
     if(RPIO.input(Ackin)):
         if(currentBit < 8):
-            senderID.write(val, bool)
+            senderID.write(writeVal, bool)
         elif(currentBit < 16):
-            recieverID.write(val, bool)
+            recieverID.write(writeVal, bool)
         else:
-            inputframe.write(val, bool)
+            inputframe.write(writeVal, bool)
 
         currentBit = currentBit + 1
         flip_bit(Thandshakeout)
-    else:
-        currentBit = 0
+        
 
 def ackin_callback_falling(gpio_id, val):
     read_message()
@@ -113,7 +114,7 @@ def send_message(message):
 
     #now the logic for sending the message via outputWire and Thandshakeout
     while(len(outStream) != 0):
-        RPIO.output(outputWire, outStream.read(bool, 1))
+        RPIO.output(outputwire, outStream.read(bool, 1))
         flip_bit(Thandshakeout)
 
     RPIO.output(Ackout, RPIO.LOW)
