@@ -96,6 +96,10 @@ def read_message():
     #GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit, bouncetime=100)
     #GPIO.remove_event_detect(Thandshakeout)
     GPIO.setup(Thandshakeout, GPIO.OUT)
+
+    if (len(inputframe) < 32):
+        for x in range(len(inputframe), 32):
+                inputframe.write(False)
     
     isSending = False
     print('isSending is: ')
