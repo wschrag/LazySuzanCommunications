@@ -6,7 +6,7 @@ import threading
 import collections
 from bitstream import BitStream
 ###  Pin Declartions and Settings #####
-GPIO.setmode(RPIO.BOARD)
+GPIO.setmode(GPIO.BOARD)
 outputwire = 33
 inputwire= 31
 Ackin = 36
@@ -14,12 +14,12 @@ Ackout = 37
 Thandshakein = 29
 Thandshakeout = 32
 
-GPIO.setup(outputwire, RPIO.OUT)
-GPIO.setup(inputwire, RPIO.IN)
-GPIO.setup(Ackin, RPIO.IN)
-GPIO.setup(Ackout, RPIO.OUT)
-GPIO.setup(Thandshakein, RPIO.IN)
-GPIO.setup(Thandshakeout, RPIO.OUT)
+GPIO.setup(outputwire, GPIO.OUT)
+GPIO.setup(inputwire, GPIO.IN)
+GPIO.setup(Ackin, GPIO.IN)
+GPIO.setup(Ackout, GPIO.OUT)
+GPIO.setup(Thandshakein, GPIO.IN)
+GPIO.setup(Thandshakeout, GPIO.OUT)
 GPIO.setwarnings(False)
 ###### input and output threads ######
 
