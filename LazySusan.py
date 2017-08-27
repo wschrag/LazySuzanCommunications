@@ -179,7 +179,7 @@ def read_bit(gpio_id):
         else:
             inputframe.write(writeVal, bool)
 
-        currentVal = currentVal + 1
+        currentVal = currentVal - 1
         bitLocation = currentVal
 
         GPIO.remove_event_detect(Thandshakein)
@@ -206,7 +206,7 @@ def send_bit(gpio_id):
     GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit)
 
 ### Starting input and output threads ###
-inputThread = threading.Thread(target=consoleInput, args=())
+inputThread  = threading.Thread(target=consoleInput, args=())
 outputThread = threading.Thread(target=consoleOutput, args=())
 #sendThread = threading.Thread(target=sending_state, args=())
 #readThread = threading.Thread(target=reading_state, args=())
@@ -215,7 +215,8 @@ outputThread.start()
 #sendThread.start()
 #readThread.start()
 
-### Adding Callbacks ###
+### Adding Callbacks ###  
 GPIO.add_event_detect(Ackin, GPIO.BOTH, callback=ackin_callback)
 GPIO.add_event_detect(Thandshakein, GPIO.BOTH, callback=read_bit) #default edge is both
+###shouldn't this cause any  echo.. ###
 #GPIO.add_event_detect(Thandshakeout, GPIO.BOTH, callback=send_bit, bouncetime=100) #default edge is both again
